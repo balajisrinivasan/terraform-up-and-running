@@ -1,5 +1,5 @@
-output "example_instance_public_ip" {
-    description = "Public ip address of example ec2 instance"
-    sensitive = false
-    value = aws_instance.example.public_ip
+output "alb_dns_name" {
+  description = "The domain name of the ALB"
+  sensitive   = false
+  value       = aws_lb.lb_example.dns_name
 }
