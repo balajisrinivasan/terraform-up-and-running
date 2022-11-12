@@ -30,7 +30,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener_rule" "lb_listner_rule_example" {
   listener_arn = aws_lb_listener.http.arn
-  priority = 100
+  priority     = 100
 
   condition {
     path_pattern {
@@ -39,7 +39,7 @@ resource "aws_lb_listener_rule" "lb_listner_rule_example" {
   }
 
   action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_lb_target_group.tg_example.arn
   }
 }

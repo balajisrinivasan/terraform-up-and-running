@@ -9,3 +9,9 @@ variable "myvpc_id" {
   type        = string
   default     = "vpc-0a4e101a25f454f63"
 }
+
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
