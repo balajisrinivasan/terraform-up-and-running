@@ -1,3 +1,13 @@
+data "terraform_remote_state" "db" {
+  backend = "s3"
+
+  config = {
+    bucket = "iac-terraform-state-madeforawscloud"
+    key    = "storage/datastore/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_launch_configuration" "lc_example" {
   image_id        = "ami-0149b2da6ceec4bb0"
   instance_type   = "t2.micro"
@@ -6,11 +16,12 @@ resource "aws_launch_configuration" "lc_example" {
     aws_security_group.sg_example
   ]
 
-  user_data = <<-EOF
-                #!bin/bash
-                echo "Hello, World" > index.html
-                nohup busybox httpd -f -p ${var.server_port}
-                EOF
+  user_data = templatefile("user-data.sh", {
+    server_port = var.server_port
+    db_address  = data.terraform_remote_state.db.outputs.address
+    db_port     = data.terraform_remote_state.db.outputs.port
+  })
+
   lifecycle {
     create_before_destroy = true
   }
