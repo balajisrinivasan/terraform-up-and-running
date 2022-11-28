@@ -1,14 +1,13 @@
 provider "aws" {
-  region = var.region
+  region = "us-east-1"
 }
 
-terraform {
-  backend "s3" {
-    bucket = "iac-terraform-state-madeforawscloud"
-    key    = "storage/datastore/terraform.tfstate"
-    region = "us-east-1"
+module "datastore" {
+  source = "../../modules/datastore"
 
-    dynamodb_table = "terraform-up-and-running-locks"
-    encrypt        = true
-  }
+  bucket = "iac-terraform-state-madeforawscloud"
+  key = "staging-datastore-state"
+  env = "staging"
+  db_username = "admin"
+  db_password = "password123"
 }
