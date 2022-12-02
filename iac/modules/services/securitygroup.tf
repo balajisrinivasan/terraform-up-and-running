@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg_example" {
-  name   = "terraform-example-security-group"
+  name   = "${var.cluster_name}-instance"
   vpc_id = var.myvpc_id
 
   ingress {
@@ -11,7 +11,7 @@ resource "aws_security_group" "sg_example" {
 }
 
 resource "aws_security_group" "sg_alb_example" {
-  name   = "terraform-example-alb"
+  name   = "${var.cluster_name}-alb"
   vpc_id = var.myvpc_id
 
   # Allow inbound http requests

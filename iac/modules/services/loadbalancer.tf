@@ -5,7 +5,7 @@ data "aws_subnets" "mypvc_subnets" {
   }
 }
 
-resource "aws_lb" "lb_example" {
+resource "aws_lb" "example" {
   name               = "terraform-asg-example"
   load_balancer_type = "application"
   subnets            = data.aws_subnets.mypvc_subnets.ids
@@ -13,7 +13,7 @@ resource "aws_lb" "lb_example" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.lb_example.arn
+  load_balancer_arn = aws_lb.example.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -28,7 +28,7 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-resource "aws_lb_listener_rule" "lb_listner_rule_example" {
+resource "aws_lb_listener_rule" "example" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
 
@@ -40,11 +40,11 @@ resource "aws_lb_listener_rule" "lb_listner_rule_example" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_example.arn
+    target_group_arn = aws_lb_target_group.example.arn
   }
 }
 
-resource "aws_lb_target_group" "tg_example" {
+resource "aws_lb_target_group" "example" {
   name     = "terraform-target-group-example"
   port     = var.server_port
   protocol = "HTTP"
